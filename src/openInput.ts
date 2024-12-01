@@ -2,14 +2,15 @@ import fs from 'fs';
 import { join } from 'path';
 
 export function openInput(year: number, day: number): string {
-  let file;
+  let fileName;
   const dayFormatted = day.toString().padStart(2, '0');
   /*
   if (__dirname.includes(year.toString()))
-    file = fs.readFileSync(join(__dirname, `../../input/${year}/${day}.txt`), 'utf-8');
+    fileName = join(__dirname, `../../inputs/${year}/${dayFormatted}.txt`);
   else
+    fileName = join(__dirname, `../inputs/${year}/${dayFormatted}.txt`);
   */
-
-  file = fs.readFileSync(join(__dirname, `../inputs/${year}/${dayFormatted}.txt`), 'utf-8');
+  fileName = join(__dirname, `../inputs/${year}/${dayFormatted}.txt`);
+  const file = fs.readFileSync(fileName, 'utf-8');
   return file;
 }
