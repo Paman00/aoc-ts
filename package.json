@@ -6,7 +6,8 @@
     "start": "bun index.ts"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/node": "22.10.1"
   },
   "peerDependencies": {
     "typescript": "5.0.0"
