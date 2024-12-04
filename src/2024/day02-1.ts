@@ -11,12 +11,13 @@ console.log(res);
 function isSafe(input: string): boolean {
   const numbers: number[] = input.split(' ').map(Number);
   // 1: increasing, -1: decreasing
-  const direction = numbers[1] > numbers[0] ? 1 : -1;
+  const direction: 1 | -1 = numbers[1] > numbers[0] ? 1 : -1;
   return numbers.every((n, i) => {
     if (i == 0) return true;
     const past = numbers[i - 1];
     if (n == past) return false;
     if (direction == 1 && past < n) return (n - past <= 3);
     if (direction == -1 && past > n) return (past - n <= 3);
+    return false;
   })
 }

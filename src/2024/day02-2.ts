@@ -12,7 +12,7 @@ function isSafe(input: string): boolean {
   const numbers: number[] = input.split(' ').map(Number);
   let wildcards = 1;
   // 0: unknown, 1: increasing, -1: decreasing
-  let direction = 0;
+  let direction: 0 | 1 | -1 = 0;
   for (let i = 1; i < numbers.length; i++) {
     const diff = numbers[i] - numbers[i - 1];
     if (diff === 0 || Math.abs(diff) > 3) {
@@ -51,6 +51,7 @@ function isStrictSafe(numbers: number[]): boolean {
     if (n == past) return false;
     if (direction == 1 && past < n) return (n - past <= 3);
     if (direction == -1 && past > n) return (past - n <= 3);
+    return false;
   })
 }
 */
