@@ -12,14 +12,14 @@ function getQXMAS(file: string): number {
   for (let i = 0; i < lines.length; i++) {
     for (let j = 0; j < lines[0].length; j++) {
       if (lines[i][j] === 'X')
-        res += countCoincidences(lines, i, j, lines.length, lines[0].length);
+        res += checkPattern(lines, i, j, 'XMAS');
     }
   }
   return res;
 }
 
-function countCoincidences(lines: string[], i: number, j: number, linesQ: number, lineL: number): number {
-  const directions = [
+function checkPattern(lines: string[], i: number, j: number, pattern: string): number {
+  const directions: Direction[] = [
     { x: 1, y: 0 },
     { x: -1, y: 0 },
 
@@ -32,20 +32,28 @@ function countCoincidences(lines: string[], i: number, j: number, linesQ: number
     { x: -1, y: 1 },
     { x: -1, y: -1 },
   ];
-  const string = "XMAS";
+
   let res = 0;
-  directions.forEach((direction) => {
-    let index = 1;
-    let x1 = j;
-    let y1 = i;
-    while (index < 4) {
-      x1 += direction.x;
-      y1 += direction.y;
-      if (x1 < 0 || x1 >= lineL || y1 < 0 || y1 >= linesQ) break;
-      if (lines[y1][x1] === string[index]) index++;
-      else break;
+  directions.forEach(({ x, y }) => {
+    let index = 0;
+    let xPos = j;
+    let yPos = i;
+    while (index < pattern.length) {
+      if (!isInLimits(lines, xPos, yPos) || lines[yPos][xPos] !== pattern[index]) break;
+      xPos += x;
+      yPos += y;
+      index++;
     }
     if (index === 4) res++;
   });
   return res;
+}
+
+function isInLimits(lines: string[], x: number, y: number): boolean {
+  return (x >= 0 && x < lines[0].length) && (y >= 0 && y < lines.length);
+}
+
+interface Direction {
+  x: number;
+  y: number;
 }
