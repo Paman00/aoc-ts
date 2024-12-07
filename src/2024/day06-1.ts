@@ -19,7 +19,7 @@ function parseData(file: string): [string[], number[]] {
 }
 
 function solveMap(map: string[], start: number[]): number {
-  const directions: { [key in Direction]: [number, number] } = {
+  const directions: Directions = {
     [Direction.top]: [-1, 0], [Direction.right]: [0, 1], [Direction.bottom]: [1, 0], [Direction.left]: [0, -1]
   };
   const visited = new Set<string>();
@@ -28,7 +28,8 @@ function solveMap(map: string[], start: number[]): number {
   let uniqueSteps = 1; // I'm not sure if the start position should be counted, but without it the result is 1 less
   visited.add(pos.toString());
   while (true) {
-    const nextPos = [pos[0] + directions[dir][0], pos[1] + directions[dir][1]];
+    const [dx, dy] = directions[dir];
+    const nextPos = [pos[0] + dx, pos[1] + dy];
     if (!isInLimits(map, nextPos[0], nextPos[1]))
       break ;
     const nextChar = map[nextPos[0]][nextPos[1]];
@@ -56,3 +57,5 @@ enum Direction {
   bottom = 2,
   left = 3
 }
+
+type Directions = { [key in Direction]: [number, number] };
