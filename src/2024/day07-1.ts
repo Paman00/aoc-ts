@@ -8,15 +8,14 @@ console.log(num);
 
 function getCalibrationTotal(file: string): number {
   const lines = file.split('\n').slice(0, -1);
-  let res = 0;
-  lines.forEach((line) => {
+  return lines.reduce((acc, line) => {
     const [number, values] = line.split(': ');
     const valuesSplit = values.split(' ').map(Number);
     if (checkIsValid(number, valuesSplit)) {
-      res += Number(number);
+      return acc + Number(number);
     }
-  });
-  return res;
+    return acc;
+  }, 0);
 }
 
 function checkIsValid(searched: string, values: number[]): boolean {
