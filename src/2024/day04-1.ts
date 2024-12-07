@@ -11,14 +11,20 @@ function getQXMAS(file: string): number {
   let res = 0;
   for (let i = 0; i < lines.length; i++) {
     for (let j = 0; j < lines[0].length; j++) {
-      if (lines[i][j] === 'X')
+      if (lines[i][j] === 'X') {
         res += checkPattern(lines, i, j, 'XMAS');
+      }
     }
   }
   return res;
 }
 
-function checkPattern(lines: string[], i: number, j: number, pattern: string): number {
+function checkPattern(
+  lines: string[],
+  i: number,
+  j: number,
+  pattern: string,
+): number {
   const directions: Direction[] = [
     { x: 1, y: 0 },
     { x: -1, y: 0 },
@@ -39,7 +45,12 @@ function checkPattern(lines: string[], i: number, j: number, pattern: string): n
     let xPos = j;
     let yPos = i;
     while (index < pattern.length) {
-      if (!isInLimits(lines, xPos, yPos) || lines[yPos][xPos] !== pattern[index]) break;
+      if (
+        !isInLimits(lines, xPos, yPos) ||
+        lines[yPos][xPos] !== pattern[index]
+      ) {
+        break;
+      }
       xPos += x;
       yPos += y;
       index++;
@@ -50,7 +61,7 @@ function checkPattern(lines: string[], i: number, j: number, pattern: string): n
 }
 
 function isInLimits(lines: string[], x: number, y: number): boolean {
-  return (x >= 0 && x < lines[0].length) && (y >= 0 && y < lines.length);
+  return x >= 0 && x < lines[0].length && y >= 0 && y < lines.length;
 }
 
 interface Direction {

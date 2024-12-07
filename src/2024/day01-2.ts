@@ -4,7 +4,9 @@ import { openInput } from '../openInput.ts';
 const file = openInput(2024, 1);
 
 const numbers: number[] = file
-  .split('\n').join(' ').split(' ')
+  .split('\n')
+  .join(' ')
+  .split(' ')
   .filter(Boolean)
   .map(Number);
 
@@ -17,16 +19,16 @@ for (let i = 0; i < numbers.length; i++) {
 let res = 0;
 const rightCount = new Map<number, number>();
 right.forEach((num) => {
-  rightCount.set(num, (rightCount.get(num) || 0) + 1);
+  rightCount.set(num, (rightCount.get(num) ?? 0) + 1);
 });
 
 left.forEach((num) => {
-  const count = rightCount.get(num) || 0;
-  res += (num * count);
+  const count = rightCount.get(num) ?? 0;
+  res += num * count;
   rightCount.delete(num);
 });
 
-console.log(res);;
+console.log(res);
 
 /*
 left.forEach((num) => {

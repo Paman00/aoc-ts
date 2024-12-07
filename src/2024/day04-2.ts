@@ -11,8 +11,9 @@ function getQMASinX(file: string): number {
   let res = 0;
   for (let i = 0; i < lines.length; i++) {
     for (let j = 0; j < lines[0].length; j++) {
-      if (lines[i][j] === 'A' && checkDiagonals(lines, i, j))
+      if (lines[i][j] === 'A' && checkDiagonals(lines, i, j)) {
         res++;
+      }
     }
   }
   return res;
@@ -33,26 +34,34 @@ function checkDiagonals(lines: string[], i: number, j: number): boolean {
   return true;
 }
 
-function checkDiagonal(lines: string[], i: number, j: number, diagonal: Direction[]): boolean {
-  let first: string;
-
+function checkDiagonal(
+  lines: string[],
+  i: number,
+  j: number,
+  diagonal: Direction[],
+): boolean {
   let xPos = j + diagonal[0].x;
   let yPos = i + diagonal[0].y;
   if (!isInLimits(lines, xPos, yPos)) return false;
-  if (lines[yPos][xPos] !== 'M' && lines[yPos][xPos] !== 'S')
+  if (lines[yPos][xPos] !== 'M' && lines[yPos][xPos] !== 'S') {
     return false;
-  first = lines[yPos][xPos];
+  }
+  const first = lines[yPos][xPos];
 
   xPos = j + diagonal[1].x;
   yPos = i + diagonal[1].y;
   if (!isInLimits(lines, xPos, yPos)) return false;
-  if ((first === 'M' && lines[yPos][xPos] !== 'S') || (first === 'S' && lines[yPos][xPos] !== 'M'))
+  if (
+    (first === 'M' && lines[yPos][xPos] !== 'S') ||
+    (first === 'S' && lines[yPos][xPos] !== 'M')
+  ) {
     return false;
+  }
   return true;
 }
 
 function isInLimits(lines: string[], x: number, y: number): boolean {
-  return (x >= 0 && x < lines[0].length) && (y >= 0 && y < lines.length);
+  return x >= 0 && x < lines[0].length && y >= 0 && y < lines.length;
 }
 
 interface Direction {

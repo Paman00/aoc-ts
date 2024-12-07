@@ -4,7 +4,9 @@ import { openInput } from '../openInput.ts';
 const file = openInput(2024, 1);
 
 const numbers: number[] = file
-  .split('\n').join(' ').split(' ')
+  .split('\n')
+  .join(' ')
+  .split(' ')
   .filter(Boolean)
   .map(Number);
 

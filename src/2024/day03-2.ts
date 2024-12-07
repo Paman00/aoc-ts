@@ -5,26 +5,31 @@ const file = openInput(2024, 3);
 
 const data = parseData(file);
 const res = mulAll(data);
-console.log(res)
+console.log(res);
 
 function parseData(input: string): number[][] {
   const mulRegex = /mul\(\d{1,3},\d{1,3}\)/;
   const matches: RegExpExecArray[] = [];
   let match: RegExpExecArray | null = null;
   let isNextValid = true;
-  while (match = mulRegex.exec(input)) {
+  while ((match = mulRegex.exec(input)) !== null) {
     isNextValid = isValidMatch(match, input, isNextValid);
-    if (isNextValid)
+    if (isNextValid) {
       matches.push(match);
+    }
     input = input.slice(match.index + match[0].length);
   }
-  return matches.map(match => {
+  return matches.map((match) => {
     const [a, b] = match[0].slice(4, -1).split(',').map(Number);
     return [a, b];
   });
 }
 
-function isValidMatch(match: RegExpExecArray, input: string, pastValid: boolean): boolean {
+function isValidMatch(
+  match: RegExpExecArray,
+  input: string,
+  pastValid: boolean,
+): boolean {
   const doRegex = /do\(\)/;
   const dontRegex = /don't\(\)/;
 
@@ -32,19 +37,20 @@ function isValidMatch(match: RegExpExecArray, input: string, pastValid: boolean)
 
   const lastDo = getLastMatch(doRegex, beforeInput);
   const lastDont = getLastMatch(dontRegex, beforeInput);
-  if (!lastDo && !lastDont)
+  if (lastDo === null && lastDont === null) {
     return pastValid;
-  if (!lastDont)
+  } else if (lastDont === null) {
     return true;
-  if (lastDo && lastDo.index > lastDont.index)
+  } else if (lastDo !== null && lastDo.index > lastDont.index) {
     return true;
+  }
   return false;
 }
 
 function getLastMatch(regex: RegExp, input: string): RegExpExecArray | null {
   let lastMatch: RegExpExecArray | null = null;
   let match: RegExpExecArray | null = null;
-  while (lastMatch = regex.exec(input)) {
+  while ((lastMatch = regex.exec(input)) !== null) {
     match = lastMatch;
     input = input.slice(match.index + match[0].length);
   }
@@ -52,5 +58,5 @@ function getLastMatch(regex: RegExp, input: string): RegExpExecArray | null {
 }
 
 function mulAll(data: number[][]): number {
-  return data.reduce((acc, [a, b]) => (a * b) + acc, 0);
+  return data.reduce((acc, [a, b]) => a * b + acc, 0);
 }
