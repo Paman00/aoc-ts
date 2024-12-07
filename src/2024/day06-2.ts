@@ -47,13 +47,13 @@ function getVisitedMap(
   visited.add(pos.toString());
   while (true) {
     const nextPos = [pos[0] + directions[dir][0], pos[1] + directions[dir][1]];
+
     if (!isInLimits(map, nextPos[0], nextPos[1])) break;
+
     const nextChar = map[nextPos[0]][nextPos[1]];
     if (nextChar === '.' || nextChar === '^') {
       pos = nextPos;
-      if (!visited.has(pos.toString())) {
-        visited.add(pos.toString());
-      }
+      visited.add(pos.toString());
     } else if (nextChar === '#') {
       dir = (dir + 1) % 4; // enum trick
     }

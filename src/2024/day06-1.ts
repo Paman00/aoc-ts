@@ -29,7 +29,6 @@ function solveMap(map: string[], start: number[]): number {
   const visited = new Set<string>();
   let pos = start;
   let dir = Direction.top;
-  let uniqueSteps = 1; // I'm not sure if the start position should be counted, but without it the result is 1 less
   visited.add(pos.toString());
   while (true) {
     const [dx, dy] = directions[dir];
@@ -40,15 +39,12 @@ function solveMap(map: string[], start: number[]): number {
     const nextChar = map[nextPos[0]][nextPos[1]];
     if (nextChar === '.' || nextChar === '^') {
       pos = nextPos;
-      if (!visited.has(pos.toString())) {
-        visited.add(pos.toString());
-        uniqueSteps++;
-      }
+      visited.add(pos.toString());
     } else if (nextChar === '#') {
       dir = (dir + 1) % 4; // enum trick
     }
   }
-  return uniqueSteps;
+  return visited.size;
 }
 
 function isInLimits(map: string[], x: number, y: number): boolean {

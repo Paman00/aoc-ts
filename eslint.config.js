@@ -17,6 +17,7 @@ export default [
       complexity: 'off',
       '@typescript-eslint/no-magic-numbers': 'off',
       '@typescript-eslint/prefer-destructuring': 'off',
+      semi: ['error', 'always'],
     },
   },
 ];

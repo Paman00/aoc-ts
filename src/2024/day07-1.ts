@@ -11,26 +11,24 @@ function getCalibrationTotal(file: string): number {
   return lines.reduce((acc, line) => {
     const [number, values] = line.split(': ');
     const valuesSplit = values.split(' ').map(Number);
-    if (checkIsValid(number, valuesSplit)) {
-      return acc + Number(number);
+    const searched = Number(number);
+    if (checkIsValid(searched, valuesSplit)) {
+      return acc + searched;
     }
     return acc;
   }, 0);
 }
 
-function checkIsValid(searched: string, values: number[]): boolean {
-  const search = (searched: number, subarr: number[]): boolean => {
-    if (subarr.length === 1) return subarr[0] === searched;
-    if (subarr[0] > searched) return false;
+function checkIsValid(searched: number, values: number[]): boolean {
+  if (values.length === 1) return values[0] === searched;
+  if (values[0] > searched) return false;
 
-    const [first, second, ...rest] = subarr;
+  const [first, second, ...rest] = values;
 
-    const sum = first + second;
-    const mul = first * second;
+  const sum = first + second;
+  const mul = first * second;
 
-    if (search(searched, [sum, ...rest])) return true;
-    if (search(searched, [mul, ...rest])) return true;
-    return false;
-  }
-  return search(Number(searched), values);
+  if (checkIsValid(searched, [sum, ...rest])) return true;
+  if (checkIsValid(searched, [mul, ...rest])) return true;
+  return false;
 }
