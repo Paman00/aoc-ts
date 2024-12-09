@@ -26,20 +26,18 @@ function parseMemory(file: string): string[] {
 }
 
 function reorderMemory(initialMemory: string[]): string[] {
-  while (true)
-  {
-    const lastNumberIndex = initialMemory.findLastIndex((curr) => curr !== '.');
-    const firstEmptyIndex = initialMemory.indexOf('.');
+  let lastNumberIndex = -1;
+  let firstEmptyIndex = -1;
+  do {
+    lastNumberIndex = initialMemory.findLastIndex((curr) => curr !== '.');
+    firstEmptyIndex = initialMemory.indexOf('.');
 
     if (lastNumberIndex > firstEmptyIndex) {
       const tmp = initialMemory[lastNumberIndex];
       initialMemory[lastNumberIndex] = initialMemory[firstEmptyIndex];
       initialMemory[firstEmptyIndex] = tmp;
     }
-    else {
-      break;
-    }
-  }
+  } while (lastNumberIndex > firstEmptyIndex);
   return initialMemory;
 }
 
