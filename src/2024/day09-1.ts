@@ -17,8 +17,7 @@ function parseMemory(file: string): string[] {
       for (let i = 0; i < count; i++) {
         memory.push(charId);
       }
-    }
-    else {
+    } else {
       memory.push(...'.'.repeat(count));
     }
   }, '');
@@ -44,6 +43,6 @@ function reorderMemory(initialMemory: string[]): string[] {
 function getMemorySum(orderedMemory: string[]): number {
   return orderedMemory.reduce((acc, curr, index) => {
     if (curr === '.') return acc;
-    return acc + (parseInt(curr) * index);
+    return acc + parseInt(curr) * index;
   }, 0);
 }
