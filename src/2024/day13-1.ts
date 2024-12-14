@@ -29,9 +29,18 @@ function parseData(file: string): Entry[] {
 }
 
 function getMinimumTokens(entry: Entry): number {
-  let minimumTokens = Infinity;
-  for (let a = 0; a <= MAX_PRESSED; a++) {
-    for (let b = 0; b <= MAX_PRESSED; b++) {
+  const maxA = Math.min(
+    Math.floor(entry.prize.targetX / entry.a.x),
+    Math.floor(entry.prize.targetY / entry.a.y),
+    MAX_PRESSED,
+  );
+  for (let a = 0; a <= maxA; a++) {
+    const maxB = Math.min(
+      Math.floor((entry.prize.targetX - a * entry.a.x) / entry.b.x),
+      Math.floor((entry.prize.targetY - a * entry.a.y) / entry.b.y),
+      MAX_PRESSED,
+    );
+    for (let b = 0; b <= maxB; b++) {
       const currentX = a * entry.a.x + b * entry.b.x;
       const currentY = a * entry.a.y + b * entry.b.y;
       if (
@@ -39,21 +48,18 @@ function getMinimumTokens(entry: Entry): number {
         currentY === entry.prize.targetY
       ) {
         const tokens = a * entry.a.cost + b * entry.b.cost;
-        if (tokens < minimumTokens) {
-          minimumTokens = tokens;
-        }
+        return tokens;
       }
     }
   }
-  return minimumTokens;
+  return -1;
 }
 
 function getAllMinimumTokens(entries: Entry[]): number {
   let minTokens = 0;
   for (const entry of entries) {
     const tokens = getMinimumTokens(entry);
-    if (tokens === Infinity) continue;
-    minTokens += tokens;
+    if (tokens !== -1) minTokens += tokens;
   }
   return minTokens;
 }
