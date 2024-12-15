@@ -21,14 +21,14 @@ function parseData(data: string): [string[][], Direction[]] {
 
 function simulateMoves(map: string[][], moves: Direction[]): string[][] {
   const directions = {
-    [Direction.top]: [0, -1],
-    [Direction.bottom]: [0, 1],
-    [Direction.right]: [1, 0],
-    [Direction.left]: [-1, 0],
+    [Direction.top]: { x: 0, y: -1 },
+    [Direction.bottom]: { x: 0, y: 1 },
+    [Direction.right]: { x: 1, y: 0 },
+    [Direction.left]: { x: -1, y: 0 },
   };
 
   const moveBox = (dir: Direction, [y, x]: number[]): boolean => {
-    const [dx, dy] = directions[dir];
+    const { x: dx, y: dy } = directions[dir];
     const nextY = y + dy;
     const nextX = x + dx;
     if (!isInLimits(map, nextX, nextY) || map[nextY][nextX] === '#') {
@@ -43,7 +43,7 @@ function simulateMoves(map: string[][], moves: Direction[]): string[][] {
   };
 
   const moveRobot = (dir: Direction, [y, x]: number[]): number[] => {
-    const [dx, dy] = directions[dir];
+    const { x: dx, y: dy } = directions[dir];
     const nextY = y + dy;
     const nextX = x + dx;
     if (!isInLimits(map, nextX, nextY) || map[nextY][nextX] === '#') {
