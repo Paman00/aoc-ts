@@ -93,6 +93,7 @@ interface State {
   cost: number;
 }
 
+// My own MinHeap with a heapify function :D
 class MinHeap<T> {
   private heap: T[] = [];
 
