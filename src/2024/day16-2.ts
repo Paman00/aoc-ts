@@ -45,6 +45,7 @@ function getUniqueTiles(
     if (x === endX && y === endY) {
       optimalCost = cost;
       visitedTiles = visitedTiles.union(current.visited);
+      current.visited.clear();
       continue;
     }
 
