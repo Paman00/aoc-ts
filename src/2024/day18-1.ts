@@ -3,14 +3,20 @@ import { openInput } from '../openInput.ts';
 
 const file = openInput(2024, 18);
 
-const bytesMap = parseData(file);
-const steps = getStepsCount(bytesMap);
+const mapWidth = 71;
+const mapHeight = 71;
+const bytesMap = parseData(file, mapWidth, mapHeight);
+const steps = getStepsCount(bytesMap, mapWidth, mapHeight);
 console.log(steps);
 
-function parseData(file: string): string[] {
+function parseData(
+  file: string,
+  mapWidth: number,
+  mapHeight: number,
+): string[] {
   const corruptedBytes = file.trim().split('\n');
-  const bytesMap = Array.from({ length: 71 }, () =>
-    Array.from({ length: 71 }, () => '.'),
+  const bytesMap = Array.from({ length: mapHeight }, () =>
+    Array.from({ length: mapWidth }, () => '.'),
   );
   for (let i = 0; i < 1024; i++) {
     const [x, y] = corruptedBytes[i].split(',').map(Number);
@@ -19,7 +25,11 @@ function parseData(file: string): string[] {
   return bytesMap.map((row) => row.join(''));
 }
 
-function getStepsCount(bytesMap: string[]): number {
+function getStepsCount(
+  bytesMap: string[],
+  mapWidth: number,
+  mapHeight: number,
+): number {
   const directions = [
     [0, 1],
     [0, -1],
@@ -30,13 +40,13 @@ function getStepsCount(bytesMap: string[]): number {
   const queue: number[][] = [];
 
   const start = [0, 0, 0];
-  const goal = '70,70';
+  const goal = `${mapWidth - 1},${mapHeight - 1}`;
   queue.push(start);
   while (queue.length > 0) {
     const next = queue.shift();
     if (next === undefined) break;
     const [x, y, steps] = next;
-    const key = `${y},${x}`;
+    const key = `${x},${y}`;
     if (key === goal) {
       return steps;
     }
