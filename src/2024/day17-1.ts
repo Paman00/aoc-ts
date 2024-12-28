@@ -20,6 +20,7 @@ function parseData(file: string): Entry {
     if (splited.length < 3) return;
     registers[splited[1][0]] = Number(splited[2]);
   });
+  registers[KEY_A] = 107416870455451;
   return { instructions, registers };
 }
 
@@ -34,13 +35,13 @@ function getCombo(operand: number, registers: Registers): number {
 function adv(operand: number, registers: Registers): void {
   const numerator = registers[KEY_A];
   const combo = getCombo(operand, registers);
-  const denominator = Math.pow(2, combo);
-  registers[KEY_A] = Math.floor(numerator / denominator);
+  const res = Number(BigInt(numerator) >> BigInt(combo));
+  registers[KEY_A] = res;
 }
 
 function bxl(operand: number, registers: Registers): void {
   const literal = operand;
-  const res = registers[KEY_B] ^ literal;
+  const res = Number(BigInt(registers[KEY_B]) ^ BigInt(literal));
   registers[KEY_B] = res;
 }
 
@@ -57,7 +58,7 @@ function jnz(operand: number, registers: Registers, ip: number): number {
 }
 
 function bxc(_operand: number, registers: Registers): void {
-  const res = registers[KEY_B] ^ registers[KEY_C];
+  const res = Number(BigInt(registers[KEY_B]) ^ BigInt(registers[KEY_C]));
   registers[KEY_B] = res;
 }
 
@@ -69,18 +70,16 @@ function out(operand: number, registers: Registers): string {
 
 function bdv(operand: number, registers: Registers): void {
   const combo = getCombo(operand, registers);
-  if (combo === -1) return;
   const numerator = registers[KEY_A];
-  const denominator = Math.pow(2, combo);
-  registers[KEY_B] = Math.floor(numerator / denominator);
+  const res = Number(BigInt(numerator) >> BigInt(combo));
+  registers[KEY_B] = res;
 }
 
 function cdv(operand: number, registers: Registers): void {
   const combo = getCombo(operand, registers);
-  if (combo === -1) return;
   const numerator = registers[KEY_A];
-  const denominator = Math.pow(2, combo);
-  registers[KEY_C] = Math.floor(numerator / denominator);
+  const res = Number(BigInt(numerator) >> BigInt(combo));
+  registers[KEY_C] = res;
 }
 
 function solve({ instructions, registers }: Entry): void {
