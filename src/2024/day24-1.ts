@@ -73,9 +73,8 @@ function solveWires(wires: Wires, dependenciesQ: Dependents[]): void {
 function getWiresValue(letter: string, wires: Wires): number {
   const binary = Object.entries(wires)
     .filter(([key]) => key.startsWith(letter))
-    .sort(([a], [b]) => a.localeCompare(b))
+    .sort(([a], [b]) => b.localeCompare(a))
     .map(([, value]) => value.toString())
-    .reverse()
     .join('');
   return parseInt(binary, 2);
 }
