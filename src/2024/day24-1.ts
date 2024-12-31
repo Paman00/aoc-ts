@@ -48,6 +48,10 @@ function parseData(file: string): [Wires, Dependents[]] {
   return [wires, dependenciesQ];
 }
 
+function xor(a: number, b: number): number {
+  return Number(BigInt(a) ^ BigInt(b));
+}
+
 function solveWires(wires: Wires, dependenciesQ: Dependents[]): void {
   while (dependenciesQ.length > 0) {
     const next = dependenciesQ.pop();
@@ -62,7 +66,7 @@ function solveWires(wires: Wires, dependenciesQ: Dependents[]): void {
       } else if (door === 'OR') {
         wires[output] = a | b;
       } else {
-        wires[output] = a ^ b;
+        wires[output] = xor(a, b);
       }
     } else {
       dependenciesQ.unshift(next);
