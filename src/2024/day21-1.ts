@@ -54,8 +54,7 @@ function parseKeypad(pad: string[][], start: string): Keypad {
 }
 
 function getAllFasterPaths(from: Coord, to: Coord, keypad: Keypad): Action[][] {
-  const queue: Array<{ coord: Coord; path: Action[]; visited: Set<string> }> =
-    [];
+  const queue: QueueElement[] = [];
   let shortestLength = Infinity;
   const paths: Action[][] = [];
 
@@ -230,4 +229,9 @@ interface Keypad {
   pad: string[][];
   start: Coord;
   coords: Record<string, Coord>;
+}
+interface QueueElement {
+  coord: Coord;
+  path: Action[];
+  visited: Set<string>;
 }
